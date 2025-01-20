@@ -1,0 +1,54 @@
+name: "Docusaurus 🦖 GitHub Pages"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      # Set up Node.js (required for Bun)
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Install Bun
+      - name: Install Bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          echo "BUN_INSTALL=$HOME/.bun/bin" >> $GITHUB_ENV
+          echo "$HOME/.bun/bin" >> $GITHUB_PATH
+
+      # Install dependencies and build Docusaurus website using Bun
+      - name: Build Docusaurus website
+        run: |
+          bun install
+          bun run build
+
+      # Set up SSH key for deployment
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSHKEY }}" > ~/.ssh/id_ssh
+          chmod 600 ~/.ssh/id_ssh
+          eval $(ssh-agent -s)
+          ssh-add ~/.ssh/id_ssh
+          ssh-keyscan -H info.ourworld.tf >> ~/.ssh/known_hosts
+          # Test SSH connection
+          ssh -o StrictHostKeyChecking=no -T root@info.ourworld.tf || true
+
+      # Deploy with rsync
+      - name: Deploy with rsync
+        run: |
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ssh" ./build/ root@info.ourworld.tf:/root/hero/www/info/testdocs/
