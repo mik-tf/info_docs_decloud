@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'ThreeFold Tech',
+  title: 'ThreeFold Decentralized Cloud',
   tagline: 'Self-Healing Data & Cloud Network',
   favicon: 'img/favicon.png',
 
