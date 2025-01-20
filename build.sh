@@ -11,4 +11,4 @@ echo "Docs directory: $script_dir"
 
 bun docusaurus build
 
-rsync -rv --delete ${script_dir}/build/ root@info.ourworld.tf:/root/hero/www/info/tftech
+rsync -rv --delete ${script_dir}/build/ root@info.ourworld.tf:/root/hero/www/info/decloud
