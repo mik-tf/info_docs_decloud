@@ -10,7 +10,7 @@
 
 ## Introduction
 
-This repository contains the code to deploy the ThreeFold Tech website.
+This repository contains the code to deploy the ThreeFold Decentralized Cloud website.
 
 ## Steps
 
@@ -33,5 +33,5 @@ This repository contains the code to deploy the ThreeFold Tech website.
 
 ## URL
 
-- The website in staging mode is at `threefold.info/tftechdev`
-- The website in production mode is at `threefold.info/tftech`
+- The website in staging mode is at `threefold.info/declouddev`
+- The website in production mode is at `threefold.info/declouddev`
